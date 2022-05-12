@@ -11,7 +11,7 @@ To agree and develop a metadata standard for the description of Marine Spatial P
 ## Ontology
 
 - TTL [file](marineplan.ttl)
-- Preferred namespace URI [https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#](https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#)
+- Preferred namespace URI [https://purl.org/voc/marineplans#](https://purl.org/voc/marineplans#)
 - Preferred namespace prefix: msp
 
 ## Creators

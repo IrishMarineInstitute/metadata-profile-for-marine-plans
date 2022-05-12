@@ -1,5 +1,5 @@
-@base <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl>.
-@prefix : <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#>.
+@base <https://purl.org/voc/marineplans>.
+@prefix : <https://purl.org/voc/marineplans#>.
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/>.
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
@@ -12,11 +12,11 @@
 @prefix xsd:<http://www.w3.org/2001/XMLSchema#>.
 @prefix vann: <http://purl.org/vocab/vann/> .
 
-<https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> a owl:Ontology;
+<https://purl.org/voc/marineplans> a owl:Ontology;
 	rdfs:label "The EU Technical Expert Group on Marine Spatial Planning Data ontology for metadata for Marine Plans"@en;
 	rdfs:comment "Sharing data across multiple countries, organisations and government departments requires providing descriptions of those data. These descriptions are known as metadata. In the case of this metadata profile, the data being described are marine plans including the spatial and temporal coverage of these plans; the organisations responsible for the creation, monitoring or implementation of these plans; and digital resources such as datasets used in the creation of a plan or developed through a marine plan and legislation or policies published online which inform the development of or support a marine plan. Complementary vocabularies are used alongside this metadata profile in order to allow connections to other initiatives, for example the Marine Strategy Framework Directive or the INSPIRE Spatial Data Infrastructure. This ontology supports the discovery of marine plans in a number of systems such as the UN Ocean Data Information System and the European Commission’s INSPIRE Spatial Data Infrastructure.";
 	vann:preferredNamespacePrefix "msp";
-        vann:preferredNamespaceUri "https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#"^^xsd:String;
+        vann:preferredNamespaceUri "https://purl.org/voc/marineplans#"^^xsd:String;
 	dcterms:created "2022-03-25";
 	dcterms:modified "2022-03-25";
         dcterms:creator [
@@ -74,7 +74,7 @@
 			[a owl:Restriction;
 				owl:onProperty :dateType;
 				owl:cardinality "1"^^xsd:nonNegativeInteger] ;
-        skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+        skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 @prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
 
 _:into_force a msp:Date ;
@@ -134,7 +134,7 @@ _:expires a msp:Date ;
 				  [ a owl:Restriction;
 		  owl:onProperty :url;
 		  owl:cardinality "1"^^xsd:nonNegativeInteger];
-        skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+        skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 
 _:marine_area_planning_act a msp:Legislation ;
     msp:name "Marine Area Planning Act 2021" ;
@@ -166,7 +166,7 @@ _:planning_and_development_ammendment_act_2018 a msp:Legislation ;
 			owl:onProperty :geographicCoverage;
 			owl:minCardinality "1"^^xsd:nonNegativeInteger];
         ;
-        skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+        skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 
 _:national_marine_planning_framework a msp:MarinePlan ;
     msp:name "National Marine Planning Framework" ;
@@ -183,7 +183,7 @@ _:national_marine_planning_framework a msp:MarinePlan ;
 		[ a owl:Restriction;
 		  owl:onProperty :name;
 		  owl:cardinality "1"^^xsd:nonNegativeInteger] ;
-        skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+        skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 
 _:marine_institute a msp:Organisation ;
     msp:name "Marine Institute"@en, "Foras na Mara"@gle ;
@@ -210,7 +210,7 @@ _:maritime_area_regulatory_authority a msp:Organisation ;
 				  [ a owl:Restriction;
 		  owl:onProperty :url;
 		  owl:cardinality "1"^^xsd:nonNegativeInteger];
-skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 
 _:aquaculture a msp:Policy ;
     msp:name "Aquaculture" ;
@@ -238,7 +238,7 @@ _:sport_and_recreation a msp:Policy ;
 		  owl:onProperty :roleType;
 		  owl:cardinality "1"^^xsd:nonNegativeInteger];
 	skos:scopeNote "Specific marine planning roles are defined as named individuals in the RoleType class to endure consistency, although these may be extended with roles from other vocabularies as necessary" ;
-        skos:example """@prefix msp: <https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl> .
+        skos:example """@prefix msp: <https://purl.org/voc/marineplans#> .
 
 _:metadata_creator a msp:Role ;
     msp:roleType msp:MetadataCreator ;
