@@ -1,0 +1,1601 @@
+@base <http://foo/bar>.
+@prefix : <http://foo/bar#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix owl:<http://www.w3.org/2002/07/owl#>.
+@prefix prov:<http://www.w3.org/ns/prov#>.
+@prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#>.
+@prefix sdo:<http://schema.org/>.
+@prefix skos:<http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#>.
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+<http://foo/bar> a owl:Ontology;
+	rdfs:label "The EU Technical Expert Group on Marine Spatial Planning Data ontology for metadata for Marine Plans"@en;
+	rdfs:comment "Sharing data across multiple countries, organisations and government departments requires providing descriptions of those data. These descriptions are known as metadata. In the case of this metadata profile, the data being described are marine plans including the spatial and temporal coverage of these plans; the organisations responsible for the creation, monitoring or implementation of these plans; and digital resources such as datasets used in the creation of a plan or developed through a marine plan and legislation or policies published online which inform the development of or support a marine plan. Complementary vocabularies are used alongside this metadata profile in order to allow connections to other initiatives, for example the Marine Strategy Framework Directive or the INSPIRE Spatial Data Infrastructure. This ontology supports the discovery of marine plans in a number of systems such as the UN Ocean Data Information System and the European Commission’s INSPIRE Spatial Data Infrastructure.";
+	vann:preferredNamespacePrefix "msp";
+        vann:preferredNamespaceUri "http://foo/bar#"^^xsd:String;
+	dcterms:created "2022-03-25";
+	dcterms:modified "2022-03-25";
+        dcterms:creator [
+                sdo:name "Adam Leadbetter";
+                sdo:identifier <https://orcid.org/0000-0003-4382-2285>;
+                sdo:affiliation [sdo:name "Marine Institute, Ireland"; sdo:url "https://www.marine.ie/Home/home"^^xsd:anyURI]
+        ], [
+                sdo:name "Andrew Conway";
+                sdo:affiliation [sdo:name "Marine Institute, Ireland"; sdo:url "https://www.marine.ie/Home/home"^^xsd:anyURI]
+        ];
+        dcterms:contributor [
+                sdo:name "Alexia Attard";
+                sdo:affiliation [sdo:name "Planning Authority, Malta"; sdo:url "https://www.pa.org.mt/"^^xsd:anyURI]
+        ],[
+                sdo:name "Monica Campillos";
+                sdo:identifier <https://orcid.org/0000-0001-8653-9565>;
+                sdo:affiliation [sdo:name "Instituto Español de Oceanografía, Spain"; sdo:url "http://www.ieo.es"^^xsd:anyURI]
+        ],[
+                sdo:name "Joni Kaitaranta";
+                sdo:affiliation [sdo:name "Baltic Marine Environment Protection Commission (HELCOM)"; sdo:url "https://helcom.fi/"^^xsd:anyURI]
+        ],[
+                sdo:name "Alessandro Sarretta";
+                sdo:affiliation [sdo:name "Consiglio Nazionale delle Ricerche, Italy"; sdo:url "https://www.cnr.it//"^^xsd:anyURI]
+        ],
+        [
+                sdo:name "Adeline Souf";
+                sdo:affiliation [sdo:name "French Naval Hydrographic and Oceanographic Service (SHOM)"; sdo:url "https://www.shom.fr/"^^xsd:anyURI]
+        ],[
+                sdo:name "Jean-Baptise Suzanne";
+                sdo:affiliation [sdo:name "French Naval Hydrographic and Oceanographic Service (SHOM)"; sdo:url "https://www.shom.fr/"^^xsd:anyURI]
+        ],[
+                sdo:name "Olvido Tello";
+                sdo:identifier <https://orcid.org/0000-0003-4990-1785>;
+                sdo:affiliation [sdo:name "Instituto Español de Oceanografía, Spain"; sdo:url "http://www.ieo.es"^^xsd:anyURI]
+        ],[
+                sdo:name "Elizabeth Tray";
+                sdo:identifier <https://orcid.org/0000-0002-7419-910X>;
+                sdo:affiliation [sdo:name "Marine Institute, Ireland"; sdo:url "https://www.marine.ie/Home/home"^^xsd:anyURI]
+        ],[
+                sdo:name "Michalis Vaitis";
+                sdo:identifier <https://orcid.org/0000-0002-1269-6071>;
+                sdo:affiliation [sdo:name "University of the Aegean, Greece"; sdo:url "https://www.aegean.gr/"^^xsd:anyURI]
+        ],[
+                sdo:name "Clara Zimmer";
+                sdo:affiliation [sdo:name "French Naval Hydrographic and Oceanographic Service (SHOM)"; sdo:url "https://www.shom.fr/"^^xsd:anyURI]
+        ].
+
+:Date a owl:Class;
+		rdfs:label "Date"@en;
+		dcterms:description "A qualified date value";
+		skos:scopeNote "At least two dates must be linked to a MarinePlan for IntoForce and Expires";
+		rdfs:subClassOf [a owl:Restriction;
+			owl:onProperty :dateLiteral;
+			owl:cardinality "1"^^xsd:nonNegativeInteger],
+			[a owl:Restriction;
+				owl:onProperty :dateType;
+				owl:cardinality "1"^^xsd:nonNegativeInteger] ;
+        skos:example """@prefix msp: <http://foo/bar> .
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
+
+_:into_force a msp:Date ;
+    msp:dateLiteral "2021-06-30"^^xsd:Date ;
+    msp:dateType msp:IntoForce .
+
+_:expires a msp:Date ;
+    msp:dateLiteral "2027"^^xsd:gYear ;
+    msp:dateType msp:Expires .""".
+
+:Dataset a owl:Class;
+					rdfs:label "Dataset";
+					rdfs:comment "A body of structured information describing some topic(s) of interest, or a collection of data, published or curated by a single agent, and available for access or download in one or more representations.";
+					skos:scopeNote "This is a minimal class and can be extended with terms from the W3C’s Data Catalog Vocabulary, DCAT, or from the Schema.org Dataset class.";
+		rdfs:subClassOf sdo:Dataset, dcat:Dataset,
+						[ a owl:Restriction;
+		  owl:onProperty :name;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+						[ a owl:Restriction;
+		  owl:onProperty :organisation;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+		[ a owl:Restriction;
+		  owl:onProperty :url;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger].
+
+:DatasetStatus a owl:Class;
+			  rdfs:label "DatasetStatus";
+			  rdfs:comment "Terms describing the status of a Dataset".
+
+:DateType a owl:Class;
+		rdfs:label "DateType";
+		rdfs:comment "Date qualifiers".
+
+:EMODnetHumanActivity a skos:ConceptScheme, owl:Class;
+			rdfs:label "EMODnetHumanActivity";
+			rdfs:comment "Terms agreed within the EU EMODnet Human Activities community to describe categories of human activities, structures or organisational boundaries in or near the marine environment.".
+
+:GeographicCoverage a owl:Class;
+				rdfs:label "GeographicCoverage";
+				rdfs:comment "A description or representation of the spatial extent covered by a marine plan or the enforcement area of a marine plan";
+				skos:scopeNote "This is a minimal class and may be extended with properties from the Open Geospatial Constrium’s GeoSPARQL ontology or the Schema.org Place class. GeographicCoverage may be nested via the containedIn property in order to represent hierarchies of spatial extents.";
+				rdfs:subClassOf geosparql:Feature, sdo:Place,
+					[ a owl:Restriction;
+		  				owl:onProperty :coverage;
+		  				owl:minCardinality "1"^^xsd:nonNegativeInteger].
+
+:HILUCSClassificationCode a owl:Class, skos:ConceptScheme;
+							  rdfs:label "HILUCSClassificationCode";
+							  rdfs:comment "Land use categories of the Hierarchical INSPIRE Land Use Classification System (HILUCS). The elements of the list should be both applicable to existing land use and planned land use.".
+
+:Legislation a owl:Class;
+		rdfs:label "Legislation";
+	rdfs:comment "The legislation either driving, informing or developed from a marine plan";
+	rdfs:subClassOf [ a owl:Restriction;
+		  owl:onProperty :name;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+				  [ a owl:Restriction;
+		  owl:onProperty :url;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger];
+        skos:example """@prefix msp: <http://foo/bar> .
+
+_:marine_area_planning_act a msp:Legislation ;
+    msp:name "Marine Area Planning Act 2021" ;
+    msp:url <https://data.oireachtas.ie/ie/oireachtas/act/2021/50/eng/enacted/a5021.pdf> .
+
+_:planning_and_development_ammendment_act_2018 a msp:Legislation ;
+    msp:name "Planning and Development (Ammendment) Act 2018 - Part 5" ;
+    msp:url <https://www.irishstatutebook.ie/eli/2018/act/16/enacted/en/print#part5> .""".
+
+:MSFDDescriptor a owl:Class, skos:ConceptScheme;
+	rdfs:label "MSFDDescriptor";
+	rdfs:comment "A Marine Strategy Framework Directive descriptor of good environmental status".
+
+:MarinePlan a owl:Class;
+	rdfs:label "MarinePlan"@en;
+	dcterms:description "A marine plan is a document, normally published by a government or a government agency, which sets out to analyse and allocate both spatially and temporally of human activity in marine areas to achieve ecological, economic and social objectives that have been specified through a political process.";
+	skos:scopeNote "This is the base class of the metadata profile and represents the marine plan being described.";
+	rdfs:subClassOf prov:Activity, prov:Entity, sdo:CreativeWork, sdo:Product,
+		[ a owl:Restriction;
+		  owl:onProperty :name;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+		[ a owl:Restriction;
+		  owl:onProperty :country;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+		[ a owl:Restiction;
+			owl:onProperty :date;
+			owl:minCardinality "2"^^xsd:nonNegativeInteger],
+		[ a owl:Restiction;
+			owl:onProperty :geographicCoverage;
+			owl:minCardinality "1"^^xsd:nonNegativeInteger];
+        ;
+        skos:example """@prefix msp: <http://foo/bar> .
+
+_:national_marine_planning_framework a msp:MarinePlan ;
+    msp:name "National Marine Planning Framework" ;
+    msp:country "ie" ;
+    msp:date _:into_force, _:expires ;
+    msp:geographicCoverage <http://atlas.marine.ie/arcgis/services/01_Maritime_Boundaries/MapServer/WMSServer?request=GetCapabilities&service=WMS> ;
+    msp:legislation _:marine_area_planning_act ;
+    msp:legislation _:planning_and_development_ammendment_act_2018 ;
+    msp:role _:metadata_creator, _:plan_creator, _:plan_enforcer .""".
+
+:Organisation a owl:Class;
+	rdfs:label "Organisation"@en;
+	rdfs:subClassOf sdo:Organizaton, foaf:Agent, prov:Agent,
+		[ a owl:Restriction;
+		  owl:onProperty :name;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger] ;
+        skos:example """@prefix msp: <http://foo/bar> .
+
+_:marine_institute a msp:Organisation ;
+    msp:name "Marine Institute"@en, "Foras na Mara"@gle ;
+    msp:country "ie" ;
+    msp:url <https://www.marine.ie/Home/home> ;
+    msp:email "institute.mail@marine.ie" .
+
+_:department_of_housing_local_government_heritage a msp:Organisation ;
+    msp:name "Department of Housing, Local Government and Heritage"@en, "An Roinn Tithiochta, Rialtais Aituil agus Oidhreachta"@gle ;
+    msp:country "ie" ;
+    msp:url <https://www.gov.ie/en/organisation/department-of-housing-local-government-and-heritage/> ;
+    msp:email "qcsofficer@housing.gov.ie" .
+
+_:maritime_area_regulatory_authority a msp:Organisation ;
+    msp:name "Maritime Area Regulatory Authority"@en ; 
+    msp:country "ie".""".
+
+:Policy a owl:Class;
+			  rdfs:label "Policy";
+		      rdfs:comment "A statement of intent related to the marine plan that is implemented as by procedure or protocol";
+				  rdfs:subClassOf [ a owl:Restriction;
+		  owl:onProperty :name;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger],
+				  [ a owl:Restriction;
+		  owl:onProperty :url;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger];
+skos:example """@prefix msp: <http://foo/bar> .
+
+_:aquaculture a msp:Policy ;
+    msp:name "Aquaculture" ;
+    msp:classification msp:Aquaculture;
+    msp:url <https://marineplan.ie/?page=page_28&views=view_112> .
+
+_:infrastructure a msp:Policy ;
+    msp:name "Infrastructure" ; 
+    msp:classification msp:SportsInfrastructure ;
+    msp:url <https://marineplan.ie/?page=page_20&views=view_115> .
+
+_:sport_and_recreation a msp:Policy ;
+    msp:name "Sport and Recreation" ; 
+    msp:classification msp:OpenAirRecreationActivities, msp:CulturalEntertainmentAndRecreationalServices, msp:OtherRecreationalServices, msp:SportsInfrastructure ;
+    msp:url <https://marineplan.ie/?page=page_37&views=view_115%2Cview_165> .""".
+
+:Role a owl:Class;
+	rdfs:label "Role"@en;
+	rdfs:comment "Denotes a role that an Organisation can take in the marine planning process";
+	rdfs:subClassOf sdo:Role, prov:Entity,
+		[ a owl:Restriction;
+		  owl:onProperty :organisation;
+		  owl:minCardinality "1"^^xsd:nonNegativeInteger],
+		[ a owl:Restriction;
+		  owl:onProperty :roleType;
+		  owl:cardinality "1"^^xsd:nonNegativeInteger];
+	skos:scopeNote "Specific marine planning roles are defined as named individuals in the RoleType class to endure consistency, although these may be extended with roles from other vocabularies as necessary" ;
+        skos:example """@prefix msp: <http://foo/bar> .
+
+_:metadata_creator a msp:Role ;
+    msp:roleType msp:MetadataCreator ;
+    msp:organisation _:marine_institute .
+
+_:plan_creator a msp:Role ;
+    msp:roleType msp:PlanCreator ;
+    msp:organisation _:department_of_housing_local_government_heritage .
+
+_:plan_enforcer a msp:Role ;
+    msp:roleType msp:PlanEnforcer ;
+    msp:organisation _:maritime_area_regulatory_authority .""".
+
+:Roles a owl:Class;
+	rdfs:label "Roles"@en;
+		rdfs:comment "Role classifiers".
+
+:country a owl:DatatypeProperty;
+	rdfs:label "country";
+	rdfs:comment "The country which a Marine Plan applies to, or which an Organisation is headquartered in.";
+	rdfs:domain :MarinePlan, :Organisation;
+	rdfs:range xsd:Literal, xsd:anyURI;
+	skos:example """<https://www.msp-platform.eu/countries/belgium> a :MarinePlan;
+    :country "BE".""";
+	skos:example """<https://www.msp-platform.eu/countries/belgium> a :MarinePlan;
+    :country <http://dbpedia.org/resource/Belgium>.""";
+		skos:scopeNote "It is recommended to use the ISO 3166-1 alpha-2 country code as the object of this property".
+
+:coverage a owl:DatatypeProperty;
+			rdfs:label "coverage";
+			skos:scopeNote "At a minimum, the ISO 3166-1 alpha-2 country code shall be provided. Where possible a more detailed spatial coverage should be provided as a reduced polygon in GeoJSON or WKT or linked to from a Web Feature Service or a Web Map Service via a URI. More than one serialisation of the coverage can be provided for an instance of geographic coverage";
+			rdfs:domain :GeographicCoverage;
+			rdfs:range xsd:Literal, xsd:anyURI, geosparql:geoJSONLiteral, geosparql:wktLiteral.
+
+:dateLiteral a owl:DatatypeProperty;
+			rdfs:label "dateLiteral";
+			rdfs:comment "The date which the Date object is referring to";
+			rdfs:domain :Date;
+			rdfs:range xsd:Date;
+			skos:scopeNote "ISO 8601 formatted date string".
+
+:description a owl:DatatypeProperty;
+				rdfs:label "description";
+				rdfs:comment "A lexical description of the item";
+				rdfs:domain :Dataset, :Policy;
+				rdfs:range xsd:Literal.
+
+:email a owl:DatatypeProperty;
+					rdfs:label "email";
+					rdfs:comment "An e-mail address which can be used as a contact point for the organisation";
+					skos:scopeNote "A generic, corporate e-mail address should be used, for example info@organisation.eu, in order to avoid any potential issues with regard to the European Commission’s General Data Protection Regulation";
+					rdfs:subProprtyOf sdo:email;
+					rdfs:domain :Organisation;
+						rdfs:range xsd:Literal, xsd:anyURI.
+
+:name a owl:DatatypeProperty;
+	rdfs:label "name";
+	rdfs:comment "The name of the item";
+	rdfs:subPropertyOf dcterms:title, rdfs:label, sdo:name;
+	rdfs:domain :Dataset, :MarinePlan, :Organisation, :Policy;
+	rdfs:range xsd:Literal;
+	skos:example """<https://www.msp-platform.eu/countries/belgium> a :MarinePlan;
+    :name "2nd Belgian Marine Spatial Plan 2020-2026".""";
+								skos:scopeNote "More than one name may be provided in order to provide textual labels for the item in multiple languages. For example Ireland’s Marine Institute may have “Marine Institute” as its name in English and “Foras na Mara” as its name in Irish".
+
+:policyClassification a owl:DatatypeProperty;
+									rdfs:label "policyClassification";
+									rdfs:comment "A term from a controlled list, such as the Hierarchical INSPIRE Land Use Classification System, that provides some level of classification describing the policy";
+									rdfs:domain :Policy;
+									rdfs:range xsd:Literal, xsd:anyURI, :HILUCSClassificationCode.
+
+:url a owl:DatatypeProperty;
+		rdfs:label "url";
+		rdfs:comment "The Web address which can be used to access the resource";
+		rdfs:subPropertyOf sdo:url;
+		rdfs:domain :Dataset, :Organisation, :Policy;
+		rdfs:range xsd:anyURI.
+
+:containedIn a owl:ObjectProperty;
+			rdfs:label "ContainedIn";
+			rdfs:comment "A connection from one geographic extent to another geographic extent which is larger than the former";
+			skos:scopeNote "The object of the relationship (i.e. the larger geographic extent) should wholly contain the subject of the relationship (i.e. the smaller geographic extent). More than one contained in relationship may be specified in order to link the geographic extent into multiple hierarchies or gazetteers.";
+			rdfs:domain :GeographicCoverage;
+			rdfs:range :GeographicCoverage.
+
+:date a owl:ObjectProperty;
+		rdfs:label "date";
+		rdfs:comment "A date which applies to the marine plan, for instance the date on which the plan came into force or on which it expires.";
+		skos:scopeNote "At least two date properties must be linked from an instance of MarinePlan, the date on which the plan came into force and the date on which the plan expires.";
+		rdfs:domain :MarinePlan;
+		rdfs:range :Date.
+
+:dateType a owl:ObjectProprty;
+			rdfs:label "dateType";
+			rdfs:comment "A classifier to explain the relationship of the specified date to the marine plan";
+			rdfs:domain :Date;
+			rdfs:range :DateType.
+
+:emodnetHumanActivity a owl:ObjectProperty;
+				rdfs:label "emodnetHumanActivity";
+				rdfs:comment "The areas of human activity as defined by the European Marine Observation and Data Network that a marine plan relates to";
+				rdfs:domain :MarinePlan;
+				rdfs:range :EMODnetHumanActivity.
+
+:enforcementArea a owl:ObjectProperty;
+					rdfs:label "enforcementArea";
+					rdfs:comment "The geographic coverage of the enforcement area for the marine plan";
+					rdfs:domain :MarinePlan;
+					rdfs:range :GeographicCoverage;
+					rdfs:subPropertyOf :geographicCoverage.
+
+:geographicCoverage a owl:ObjectProperty;
+						rdfs:label "geographicCoverage";
+						rdfs:comment "The geographic coverage of the area affected by the marine plan";
+						rdfs:domain :MarinePlan;
+						rdfs:range :GeographicCoverage.
+
+:inputDataset a owl:ObjectProperty;
+							rdfs:label "inputDataset";
+							rdfs:comment "A Dataset that was used in informing the development of the marine plan";
+							rdfs:domain :MarinePlan;
+							rdfs:range :Dataset.
+
+:legislation a owl:ObjectProperty;
+								rdfs:label "legislation";
+								rdfs:comment "The legislation either driving, informing or developed from a marine plan.";
+								rdfs:domain :MarinePlan;
+								rdfs:range :Legislation.
+
+:msfdDescriptor a owl:ObjectProperty;
+									rdfs:label "msfdDescriptor";
+									rdfs:comment "A Marine Strategy Framework Directive descriptor of good environmental status, the reporting of which may be informed by the contents of the dataset";
+									rdfs:domain :Dataset;
+									rdfs:range :MSFDDEscriptor.
+
+:organisation a owl:ObjectProperty;
+	rdfs:label "organisation";
+										rdfs:comment "An organisation fulfilling the described role or the organisation responsible for the creation and maintenance of the dataset";
+	rdfs:subPropertyOf prov:wasAttributedTo;
+	rdfs:domain :Dataset, :Role;
+	rdfs:range :Organisation.
+
+:outputDataset a owl:ObjectProperty;
+		rdfs:label "outputDataset";
+		rdfs:comment "A dataset created as part of the marine planning process";
+		rdfs:domain :MarinePlan;
+		rdfs:range :Dataset.
+
+:policy a owl:Objectproperty;
+			rdfs:label "policy";
+			rdfs:comment "An administrative policy set by local, regional or national government which informed the development of the marine plan or was informed by the marine plan";
+			rdfs:domain :MarinePlan;
+			rdfs:range :Policy.
+
+:role a owl:ObjectProperty;
+	rdfs:label "role";
+	rdfs:subPropertyOf prov:wasDerivedFrom;
+	rdfs:domain :MarinePlan;
+	rdfs:range :Role.
+	
+:roleType a owl:ObjectProperty;
+	rdfs:label "roleType";
+		rdfs:comment "A classifier describing the specific role being fulfilled";
+		skos:scopeNote "Where the role type is not a named individual from the RoleType class, the URI to a concept from another controlled vocabulary must be used";
+	rdfs:subPropertyOf sdo:roleName;
+	rdfs:domain :Role;
+		rdfs:range :Roles, xsd:anyURI.
+
+:status a owl:ObjectProperty;
+	rdfs:label "status";
+			rdfs:comment "The status of the dataset with respect to the marine plan";
+			rdfs:domain :Dataset;
+			rdfs:range :DatasetStatus.
+
+:MetadataCreator a owl:NamedIndividual, :Roles;
+	rdfs:label "MetadataCreator"@en;
+	rdfs:comment "The Role of the creator of the metadata about a Marine Plan".
+
+:PlanCreator a owl:NamedIndividual, :Roles;
+	rdfs:label "PlanCreator"@en;
+	rdfs:comment "The Role of the creator of a Marine Plan".
+
+:Expires a owl:NamedIndividual, :DateType;
+		rdfs:label "Expires"@en;
+		rdfs:comment "The Date on which the Marine Plan expires".
+
+:IntoForce a owl:NamedIndividual, :DateType;
+		rdfs:label "IntoForce"@en;
+			rdfs:comment "The Date on which the Marine Plan comes into force".
+
+:NextUpdate a owl:NamedIndividual, :DateType;
+		rdfs:label "NextUpdate"@en;
+				rdfs:comment "The Date on which the Marine Plan is next due to be updated".
+
+:NaturalGasStorageSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "NaturalGasStorageSiteLocation";
+        skos:prefLabel "Natural gas storage site location";
+        rdfs:comment "Points or polygons indicating location of facilities that have been licenced for natural gas storage.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20055/>.
+
+:WaveEnergyFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "WaveEnergyFacilityLocation";
+        skos:prefLabel "Wave energy facility location";
+        rdfs:comment "Points or polygons indicating location of facilities that produce energy from wind waves.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20023/>.
+
+:BathingSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "BathingSiteLocation";
+        skos:prefLabel "Bathing site location";
+        rdfs:comment "Points or polygons indicating bathing water quality.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20045/>.
+
+:TelecommunicationCableLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "TelecommunicationCableLocation";
+        skos:prefLabel "Telecommunication cable location";
+        rdfs:comment "Lines indicating actual routes of submarine telecommunication cables.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20013/>.
+
+:DeepSeaMiningSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "DeepSeaMiningSiteLocation";
+        skos:prefLabel "Deep-sea mining site location";
+        rdfs:comment "Points or polygons indicating location of research and exploration of deep-sea minerals.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20035/>.
+
+:FreshwaterAquacultureFarmLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FreshwaterAquacultureFarmLocation";
+        skos:prefLabel "Freshwater aquaculture farm location";
+        rdfs:comment "Points or polygons indicating location of sites dedicated to farming of finfish and shellfish in freshwater.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20003/>.
+
+:FishCatchesStatistics a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FishCatchesStatistics";
+        skos:prefLabel "Fish catches statistics";
+        rdfs:comment "Statistics on fish catches by FAO 3-alpha code.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20025/>.
+
+:MarinaLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MarinaLocation";
+        skos:prefLabel "Marina location";
+        rdfs:comment "Points indicating location of yacht marinas.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20047/>.
+
+:LighthouseLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "LighthouseLocation";
+        skos:prefLabel "Lighthouse location";
+        rdfs:comment "Points indicating location of operating or abandoned lighthouses.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20015/>.
+
+:OilPipelineLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OilPipelineLocation";
+        skos:prefLabel "Oil pipeline location";
+        rdfs:comment "Lines indicating actual routes of submarine oil pipelines.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20037/>.
+
+:AdvisoryCouncilsBoundaries a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "AdvisoryCouncilsBoundaries";
+        skos:prefLabel "Advisory Councils boundaries";
+        rdfs:comment "Polygons indicating the boundaries of Regional Advisory Councils.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20005/>.
+
+:GearSpecificFishingEffort a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "GearSpecificFishingEffort";
+        skos:prefLabel "Gear-specific fishing effort";
+        rdfs:comment "Amount of fishing gear of a specific type used on the fishing grounds over a given unit of time.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20027/>.
+
+:PortLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "PortLocation";
+        skos:prefLabel "Port location";
+        rdfs:comment "Points or polygons indicating location of sea ports.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20049/>.
+
+:WreckLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "WreckLocation";
+        skos:prefLabel "Wreck location";
+        rdfs:comment "Points indicating location of remains of ships that have wrecked.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20017/>.
+
+:MarineLitterMonitoringSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MarineLitterMonitoringSiteLocation";
+        skos:prefLabel "Marine litter monitoring site location";
+        rdfs:comment "Areas used for the monitoring of marine litter.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20039/>.
+
+:ShipTrafficLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ShipTrafficLocation";
+        skos:prefLabel "Ship traffic location";
+        rdfs:comment "Position of vessels based on AIS, LRIT, VMS etc.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20050/>.
+
+:FishingZoneLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FishingZoneLocation";
+        skos:prefLabel "Fishing zone location";
+        rdfs:comment "Boundaries of FAO and ICES fishing zones or any other area legally defined as a fishing zone.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20007/>.
+
+:FishPortLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FishPortLocation";
+        skos:prefLabel "Fish port location";
+        rdfs:comment "Points or polygons indicating location of fish ports.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20029/>.
+
+:IndustrialAndDomesticWastewaterPlantLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "IndustrialAndDomesticWastewaterPlantLocation";
+        skos:prefLabel "Industrial and domestic wastewater plant location";
+        rdfs:comment "Points indicating location of industrial and domestic wastewater treatment plants.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20040/>.
+
+:NuclearPlantLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "NuclearPlantLocation";
+        skos:prefLabel "Nuclear plant location";
+        rdfs:comment "Points or polygons indicating location of plants that produce nuclear energy in coastal areas.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20019/>.
+
+:TotalAllowableCatchesTacAndQuotas a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "TotalAllowableCatchesTacAndQuotas";
+        skos:prefLabel "Total Allowable Catches (TAC) and quotas";
+        rdfs:comment "Total Allowable Catches and quotas annually defined for commercially important fish stocks.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20030/>.
+
+:ShippingDensity a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ShippingDensity";
+        skos:prefLabel "Shipping density";
+        rdfs:comment "Average number of ships per unit of time within a grid cell.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20052/>.
+
+:ExploitationLicencedArea a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ExploitationLicencedArea";
+        skos:prefLabel "Exploitation licenced area";
+        rdfs:comment "Polygons indicating boundaries of sea areas concessions granted by states to private entities for the exploitation of natural resources (e.g. extraction or exploration of oil and gas, construction of renewable energy sites).";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20009/>.
+
+:OceanThermalEnergyFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OceanThermalEnergyFacilityLocation";
+        skos:prefLabel "Ocean thermal energy facility location";
+        rdfs:comment "Points or polygons indicating location of facilities that produce energy from the ocean's naturally available temperature gradient.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20020/>.
+
+:OffshoreOtherThanOilDischargeLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OffshoreOtherThanOilDischargeLocation";
+        skos:prefLabel "Offshore (other than oil) discharge location";
+        rdfs:comment "Points or polygons indicating offshore discharges.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20042/>.
+
+:MaritimeBoundaries a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MaritimeBoundaries";
+        skos:prefLabel "Maritime boundaries";
+        rdfs:comment "Boundaries of Baseline, Contiguous zone (24 nm), Continental Shelf, Delimitation line between states, Exclusive Economic Zone (200 nm), Territorial sea (12 nm).";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20010/>.
+
+:BoreholeLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "BoreholeLocation";
+        skos:prefLabel "Borehole location";
+        rdfs:comment "Points indicating location of offshore hydrocarbon boreholes.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20032/>.
+
+:CarbonCaptureStorageSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "CarbonCaptureStorageSiteLocation";
+        skos:prefLabel "Carbon capture storage site location";
+        rdfs:comment "Points or polygons indicating location of facilities that have been licenced for carbon capture storage.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20054/>.
+
+:TidalEnergyFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "TidalEnergyFacilityLocation";
+        skos:prefLabel "Tidal energy facility location";
+        rdfs:comment "Points or polygons indicating location of facilities that produce energy from tides.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20022/>.
+
+:SaltEvaporationPondLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "SaltEvaporationPondLocation";
+        skos:prefLabel "Salt evaporation pond location";
+        rdfs:comment "Points or polygons indicating location of salt evaporation ponds.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20044/>.
+
+:PowerCableLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "PowerCableLocation";
+        skos:prefLabel "Power cable location";
+        rdfs:comment "Lines indicating actual routes of submarine power cables.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20012/>.
+
+:AggregatesExtractionSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "AggregatesExtractionSiteLocation";
+        skos:prefLabel "Aggregates extraction site location";
+        rdfs:comment "Points or polygons indicating location of marine aggregate extraction sites.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20034/>.
+
+:BrackishWaterAquacultureFarmLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "BrackishWaterAquacultureFarmLocation";
+        skos:prefLabel "Brackish-water aquaculture farm location";
+        rdfs:comment "Points or polygons indicating location of sites dedicated to farming of finfish and shellfish in brackish water.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20002/>.
+
+:AlgaeProductionPlantLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "AlgaeProductionPlantLocation";
+        skos:prefLabel "Algae production plant location";
+        rdfs:comment "Points or polygons indicating location of sites dedicated to production of algae.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20056/>.
+
+:WindEnergyFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "WindEnergyFacilityLocation";
+        skos:prefLabel "Wind energy facility location";
+        rdfs:comment "Points or polygons indicating location of offshore facilities that produce energy from wind.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20024/>.
+
+:DensityOfTouristAccommodationEstablishments a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "DensityOfTouristAccommodationEstablishments";
+        skos:prefLabel "Density of tourist accommodation establishments";
+        rdfs:comment "Number of tourist accommodation establishments per square kilometre.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20046/>.
+
+:ArchaelogicalSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ArchaelogicalSiteLocation";
+        skos:prefLabel "Archaelogical site location";
+        rdfs:comment "Points or polygons indicating sites that show signs of past human behaviour or activity.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20014/>.
+
+:GasPipelineLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "GasPipelineLocation";
+        skos:prefLabel "Gas pipeline location";
+        rdfs:comment "Lines indicating actual routes of submarine gas pipelines.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20036/>.
+
+:MarineProtectedAreaLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MarineProtectedAreaLocation";
+        skos:prefLabel "Marine protected area location";
+        rdfs:comment "Polygons indicating legally defined areas within or adjacent to the marine environment for a conservation purpose.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20004/>.
+
+:FishLandingsStatistics a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FishLandingsStatistics";
+        skos:prefLabel "Fish landings statistics";
+        rdfs:comment "Statistics on fish landings by FAO 3-alpha code.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20026/>.
+
+:MarineEnvironmentLeisureUsageLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MarineEnvironmentLeisureUsageLocation";
+        skos:prefLabel "Marine environment leisure usage location";
+        rdfs:comment "Points or polygons indicating location of leisure sites within or adjacent to the marine environment.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20048/>.
+
+:MaritimeMuseumLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MaritimeMuseumLocation";
+        skos:prefLabel "Maritime museum location";
+        rdfs:comment "Points indicating location of maritime musea.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20016/>.
+
+:WaterPipelineLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "WaterPipelineLocation";
+        skos:prefLabel "Water pipeline location";
+        rdfs:comment "Lines indicating actual routes of submarine water pipelines.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20038/>.
+
+:AreasUsedForMilitaryPurposeLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "AreasUsedForMilitaryPurposeLocation";
+        skos:prefLabel "Areas used for military purpose location";
+        rdfs:comment "Polygons indicating the boundaries of areas whose use is restricted by law to military purposes.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20006/>.
+
+:FishingIntensity a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "FishingIntensity";
+        skos:prefLabel "Fishing intensity";
+        rdfs:comment "Fishing effort per unit area per unit time.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20028/>.
+
+:MarineCurrentPowerFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "MarineCurrentPowerFacilityLocation";
+        skos:prefLabel "Marine current power facility location";
+        rdfs:comment "Points or polygons indicating location of facilities that produce energy from harnessing of the kinetic energy of marine currents.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20018/>.
+
+:ShippingAccidentLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ShippingAccidentLocation";
+        skos:prefLabel "Shipping accident location";
+        rdfs:comment "Points indicating location of shipping accident.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20051/>.
+
+:InternationalConventionsSeaBoundaries a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "InternationalConventionsSeaBoundaries";
+        skos:prefLabel "International Conventions sea boundaries";
+        rdfs:comment "Boundaries of regional sea conventions.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20008/>.
+
+:OilDischargeAccidentalSpillsIllegalDischargesLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OilDischargeAccidentalSpillsIllegalDischargesLocation";
+        skos:prefLabel "Oil discharge (accidental spills, illegal discharges) location";
+        rdfs:comment "Points or polygons indicating offshore oil discharges.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20041/>.
+
+:OffshoreInstallationLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OffshoreInstallationLocation";
+        skos:prefLabel "Offshore installation location";
+        rdfs:comment "Points or polygons indicating location of offshore installations for hydrocarbon extraction and / or exploration.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20031/>.
+
+:ShippingEmissions a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "ShippingEmissions";
+        skos:prefLabel "Shipping emissions";
+        rdfs:comment "Average emissions of pollutants from shipping within a grid cell.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20053/>.
+
+:OsmoticPowerFacilityLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "OsmoticPowerFacilityLocation";
+        skos:prefLabel "Osmotic power facility location";
+        rdfs:comment "Points or polygons indicating location of facilities that produce energy from the difference in the salt concentration between seawater and river water.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20021/>.
+
+:WasteDisposalLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "WasteDisposalLocation";
+        skos:prefLabel "Waste disposal location";
+        rdfs:comment "Points or polygons indicating offshore sites used for waste disposal.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20043/>.
+
+:SpatialPlanningZoneLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "SpatialPlanningZoneLocation";
+        skos:prefLabel "Spatial planning zone location";
+        rdfs:comment "Polygons indicating sea areas allocated to various human activities in the framework of a maritime spatial plan.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20011/>.
+
+:DredgingSiteLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "DredgingSiteLocation";
+        skos:prefLabel "Dredging site location";
+        rdfs:comment "Points or polygons indicating location of dredging sites.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20033/>.
+
+:SeaWaterAquacultureFarmLocation a owl:NamedIndividual, skos:Concept, :EMODnetHumanActivity;
+        rdfs:label "SeaWaterAquacultureFarmLocation";
+        skos:prefLabel "Sea-water aquaculture farm location";
+        rdfs:comment "Points or polygons indicating location of sites dedicated to farming of finfish and shellfish in sea water.";
+        skos:inScheme :EMODnetHumanActivity;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/HA2/current/HA20001/>.
+
+:Current a owl:NamedIndividual, :DatasetStatus;
+							rdfs:label "Current";
+							rdfs:comment "The dataset is currently valid".
+
+:Expired a owl:NamedIndividual, :DatasetStatus;
+								rdfs:label "Expired";
+								rdfs:comment "The dataset is not currently valid".
+
+:IllustrativeOnly a owl:NamedIndividual, :DatasetStatus;
+									rdfs:label "IllustrativeOnly";
+									rdfs:comment "The dataset should be used for illustrative purposes only".
+
+:PropertiesAndQuantitiesOfMarineLitterDoNotCauseHarm a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "PropertiesAndQuantitiesOfMarineLitterDoNotCauseHarm";
+        skos:prefLabel "Properties and quantities of marine litter do not cause harm";
+        rdfs:comment "Properties and quantities of marine litter do not cause harm to the coastal and marine environment";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D10/>.
+
+:HydrographicalConditionsAreNotAltered a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "HydrographicalConditionsAreNotAltered";
+        skos:prefLabel "Hydrographical conditions are not altered";
+        rdfs:comment "Permanent alteration of hydrographical conditions does not adversely affect marine ecosystems";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D7/>.
+
+:ContaminantsInSeafoodDoNotExceedEstablishedLevels a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "ContaminantsInSeafoodDoNotExceedEstablishedLevels";
+        skos:prefLabel "Contaminants in seafood do not exceed established levels";
+        rdfs:comment "Contaminants in fish and other seafood for human consumption do not exceed levels established by Community legislation or other relevant standards";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D9/>.
+
+:NonIndigenousSpeciesDoNotAdverselyAffectEcosystem a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "NonIndigenousSpeciesDoNotAdverselyAffectEcosystem";
+        skos:prefLabel "Non-indigenous species do not adversely affect ecosystem";
+        rdfs:comment "Non-indigenous species introduced by human activities are at levels that do not adversely alter the ecosystem";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D2/>.
+
+:MarineFoodWebsAreAtNormalAbundanceAndDiversity a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "MarineFoodWebsAreAtNormalAbundanceAndDiversity";
+        skos:prefLabel "Marine food webs are at normal abundance and diversity";
+        rdfs:comment "All elements of the marine food webs, to the extent that they are known, occur at normal abundance and diversity and levels capable of ensuring the long-term abundance of the species and the retention of their full reproductive capacity";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D4/>.
+
+:SeaFloorIntegritySupportsEcosystem a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "SeaFloorIntegritySupportsEcosystem";
+        skos:prefLabel "Sea-floor integrity supports ecosystem";
+        rdfs:comment "Sea-floor integrity is at a level that ensures that the structure and functions of the ecosystems are safeguarded and benthic ecosystems, in particular, are not adversely affected";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D6/>.
+
+:IntroductionOfEnergyDoesNotAdverselyAffectTheMarineEnvironment a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "IntroductionOfEnergyDoesNotAdverselyAffectTheMarineEnvironment";
+        skos:prefLabel "Introduction of energy does not adversely affect the marine environment";
+        rdfs:comment "Introduction of energy, including underwater noise, is at levels that do not adversely affect the marine environment";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D11/>.
+
+:ContaminantsDoNotProducePollutionEffects a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "ContaminantsDoNotProducePollutionEffects";
+        skos:prefLabel "Contaminants do not produce pollution effects";
+        rdfs:comment "Concentrations of contaminants are at levels not giving rise to pollution effects";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D8/>.
+
+:BiologicalDiversityMaintained a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "BiologicalDiversityMaintained";
+        skos:prefLabel "Biological diversity maintained";
+        rdfs:comment "Biological diversity is maintained. The quality and occurrence of habitats and the distribution and abundance of species are in line with prevailing physiographic, geographic and climate conditions";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D1/>.
+
+:CommercialFishAndShellfishPopulationsAreHealthy a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "CommercialFishAndShellfishPopulationsAreHealthy";
+        skos:prefLabel "Commercial fish and shellfish populations are healthy";
+        rdfs:comment "Populations of all commercially exploited fish and shellfish are within safe biological limits, exhibiting a population age and size distribution that is indicative of a healthy stock";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D3/>.
+
+:EutrophicationIsMinimised a owl:NamedIndividual, skos:Concept, :MSFDDescriptor;
+        rdfs:label "EutrophicationIsMinimised";
+        skos:prefLabel "Eutrophication is minimised";
+        rdfs:comment "Human-induced eutrophication is minimised, especially adverse effects thereof, such as losses in biodiversity, ecosystem degradation, harmful algal blooms and oxygen deficiency in bottom water";
+        skos:inScheme :MSFDDescriptor;
+        owl:sameAs <http://vocab.nerc.ac.uk/collection/C45/current/D5/>.
+
+:PrimaryProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "PrimaryProduction";
+        skos:prefLabel "primary production";
+        rdfs:comment "Areas where the manufacturing industries aggregate, package, purify or process the primary products close to the primary producers are included, especially if the raw material is unsuitable for sale or difficult to transport long distances.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_PrimaryProduction>.
+
+:Agriculture a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "Agriculture";
+        skos:prefLabel "agriculture";
+        rdfs:comment "Production of crop (plants, fungi, etc.) and animal products for food, for sale, own consumption or industrial purposes. It includes plants for biofuels";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_1_Agriculture>.
+
+:CommercialAgriculturalProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "CommercialAgriculturalProduction";
+        skos:prefLabel "commercial agricultural production";
+        rdfs:comment "Arable land, permanent crops and grasslands in agricultural use (both sown and natural grassland). The products can be used for human or animal feed or bio-energy production.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_1_1_CommercialAgriculturalProduction>.
+
+:FarmingInfrastructure a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "FarmingInfrastructure";
+        skos:prefLabel "farming infrastructure";
+        rdfs:comment "Farm dwellings, animal husbandry infrastructure (animal dwellings and processing infrastructure linked to farms), manure storage and other farming infrastructure (e.g. buildings linked to plant handling and processing in farms).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_1_2_FarmingInfrastructure>.
+
+:AgriculturalProductionForOwnConsumption a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AgriculturalProductionForOwnConsumption";
+        skos:prefLabel "agricultural production for own consumption";
+        rdfs:comment "Production of plants or animals for own consumption (kitchen gardens, private animal sheds etc.)";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_1_3_AgriculturalProductionForOwnConsumption>.
+
+:Forestry a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "Forestry";
+        skos:prefLabel "forestry";
+        rdfs:comment "Production of round wood and other wood based primary products. Besides the production of timber, forestry activities result in products that undergo little processing, such as firewood, charcoal and round wood used in an unprocessed form (e.g. pit-props, pulpwood etc.). Forest tree nurseries, storage and transport areas linked to logging, trees and woody plants for bio fuels are also included. These activities can be carried out in natural or planted forests.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_2_Forestry>.
+
+:ForestryBasedOnShortRotation a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ForestryBasedOnShortRotation";
+        skos:prefLabel "forestry based on short rotation";
+        rdfs:comment "Forestry areas where the rotation period of a tree generation is 50 years or less, after which the forest is regenerated naturally or artificially with planting or seeding. Tree plantations (pulp-wood production) and wood used for biomass production also belong to this class.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_2_1_ForestryBasedOnShortRotation>.
+
+:ForestryBasedOnIntermediateOrLongRotation a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ForestryBasedOnIntermediateOrLongRotation";
+        skos:prefLabel "forestry based on intermediate or long rotation";
+        rdfs:comment "Forestry areas where the rotation period of a tree generation is over 50 years after which the forest is regenerated naturally or artificially with planting or seeding.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_2_2_ForestryBasedOnIntermediateOrLongRotation>.
+
+:ForestryBasedOnContinuousCover a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ForestryBasedOnContinuousCover";
+        skos:prefLabel "forestry based on continuous cover";
+        rdfs:comment "Forestry areas where forest management and regeneration is based on continuous growing of trees.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_2_3_ForestryBasedOnContinuousCover>.
+
+:MiningAndQuarrying a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "MiningAndQuarrying";
+        skos:prefLabel "mining and quarrying";
+        rdfs:comment "Mining and quarrying in the form of the extraction of minerals and materials occurring naturally as solids (coal, ores, gravel, sand, salt), liquids (petroleum), gases (natural gas) or biomass (peat). Extraction can be achieved by different methods such as underground or surface mining or extraction, well operation etc.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_3_MiningAndQuarrying>.
+
+:MiningOfEnergyProducingMaterials a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "MiningOfEnergyProducingMaterials";
+        skos:prefLabel "mining of energy producing materials";
+        rdfs:comment "Mining and extraction of coal, lignite, peat, petroleum, natural gas, uranium and thorium.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_3_1_MiningOfEnergyProducingMaterials>.
+
+:MiningOfMetalOres a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "MiningOfMetalOres";
+        skos:prefLabel "mining of metal ores";
+        rdfs:comment "Mining of iron and other non-ferrous metal ores (except uranium and thorium).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_3_2_MiningOfMetalOres>.
+
+:OtherMiningAndQuarrying a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherMiningAndQuarrying";
+        skos:prefLabel "other mining and quarrying";
+        rdfs:comment "Quarrying of stone, sand, clay, chemical, fertilizer minerals, the production of salt and other mining and quarrying.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_3_3_OtherMiningAndQuarrying>.
+
+:AquacultureAndFishing a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AquacultureAndFishing";
+        skos:prefLabel "aquaculture and fishing";
+        rdfs:comment "Professional fishing and aquaculture.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_4_AquacultureAndFishing>.
+
+:Aquaculture a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "Aquaculture";
+        skos:prefLabel "aquaculture";
+        rdfs:comment "Fish hatcheries and managed grow-out sites.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_4_1_Aquaculture>.
+
+:ProfessionalFishing a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ProfessionalFishing";
+        skos:prefLabel "professional fishing";
+        rdfs:comment "Water areas used for professional fishing.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_4_2_ProfessionalFishing>.
+
+:OtherPrimaryProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherPrimaryProduction";
+        skos:prefLabel "other primary production";
+        rdfs:comment "Professional hunting, gathering of wild growing non-wood forestry products, husbandry of migratory animals and any other primary production not included in the values 1_1_Agriculture, 1_2_Forestry, 1_3_MiningAndQuarrying, 1_4_AquacultureAndFishing or any of their narrower values.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_5_OtherPrimaryProduction>.
+
+:Hunting a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "Hunting";
+        skos:prefLabel "hunting";
+        rdfs:comment "Professional hunting. The areas can be fenced or open.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_5_1_Hunting>.
+
+:ManagementOfMigratoryAnimals a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManagementOfMigratoryAnimals";
+        skos:prefLabel "management of migratory animals";
+        rdfs:comment "Keeping and feeding migratory animals such as reindeer and deer.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_5_2_ManagementOfMigratoryAnimals>.
+
+:PickingOfNaturalProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "PickingOfNaturalProducts";
+        skos:prefLabel "picking of natural products";
+        rdfs:comment "Picking up natural non wood based products such as non-cultivated berries, mosses, lichen etc.) for commercial purposes";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/1_5_3_PickingOfNaturalProducts>.
+
+:SecondaryProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "SecondaryProduction";
+        skos:prefLabel "secondary production";
+        rdfs:comment "Industrial and manufacturing activities which take the output of the primary sector and manufacture finished goods and intermediate products for other business. It also includes the storage and transport areas linked directly to manufacturing activities.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_SecondaryProduction>.
+
+:RawIndustry a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "RawIndustry";
+        skos:prefLabel "raw industry";
+        rdfs:comment "Industrial activities transforming the output primary sector into manufactured raw products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_RawIndustry>.
+
+:ManufacturingOfTextileProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfTextileProducts";
+        skos:prefLabel "manufacturing of textile products";
+        rdfs:comment "Preparation and spinning of textile fibres, sewing threads, textile weaving, tanning and dressing of leather.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_1_ManufacturingOfTextileProducts>.
+
+:ManufacturingOfWoodAndWoodBasedProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfWoodAndWoodBasedProducts";
+        skos:prefLabel "manufacturing of wood and wood based products";
+        rdfs:comment "Sawmilling and planning of wood, manufacturing of veneer sheets, plywood, laming boards, fibre boards, carpentry and joinery, cork, straw and plaiting products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_2_ManufacturingOfWoodAndWoodBasedProducts>.
+
+:ManufacturingOfPulpPaperAndPaperProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfPulpPaperAndPaperProducts";
+        skos:prefLabel "manufacturing of pulp paper and paper products";
+        rdfs:comment "Manufacturing of pulp, paper, paperboard, paper based sanitary goods, wallpapers.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_3_ManufacturingOfPulpPaperAndPaperProducts>.
+
+:ManufacturingOfCokeRefinedPetroleumProductsAndNuclearFuel a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfCokeRefinedPetroleumProductsAndNuclearFuel";
+        skos:prefLabel "manufacturing of coke refined petroleum products and nuclear fuel";
+        rdfs:comment "Manufacturing coke, refined petroleum and processing of nuclear fuel.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_4_ManufacturingOfCokeRefinedPetroleumProductsAndNuclearFuel>.
+
+:ManufacturingOfChemicalsChemicalProductsManMadeFibers a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfChemicalsChemicalProductsManMadeFibers";
+        skos:prefLabel "manufacturing of chemicals chemical products man made fibers";
+        rdfs:comment "Manufacturing of basic chemicals, agro-chemicals, paints, pharmaceuticals, soap, detergents, glues, other chemical products and man-made fibers.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_5_ManufacturingOfChemicalsChemicalProductsManMadeFibers>.
+
+:ManufacturingOfBasicMetalsAndFabricateMetals a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfBasicMetalsAndFabricateMetals";
+        skos:prefLabel "manufacturing of basic metals and fabricate metals";
+        rdfs:comment "Manufacturing, processing and casting of iron, steel and basic precious and non-ferrous metals. It also includes the manufacturing of metal products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_6_ManufacturingOfBasicMetalsAndFabricatedMetals>.
+
+:ManufacturingOfNonMetallicMineralProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfNonMetallicMineralProducts";
+        skos:prefLabel "manufacturing of non-metallic mineral products";
+        rdfs:comment "Manufacturing glass, bricks, ceramics, concrete, cement, lime, plaster, cutting and shaping of stone and other non-metallic mineral products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_7_ManufacturingOfNonMetallicMineralProducts>.
+
+:ManufacturingOfRubberPlasticProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfRubberPlasticProducts";
+        skos:prefLabel "manufacturing of rubber plastic products";
+        rdfs:comment "Manufacturing of tyres, tubes, plastic packing good and other rubber and plastic products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_8_ManufacturingOfRubberPlasticProducts>.
+
+:ManufacturingOfOtherRawMaterials a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfOtherRawMaterials";
+        skos:prefLabel "manufacturing of other raw materials";
+        rdfs:comment "Production of raw materials not included in any other of the narrower values of 2_1_RawIndustry.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_1_9_ManufacturingOfOtherRawMaterials>.
+
+:HeavyEndProductIndustry a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "HeavyEndProductIndustry";
+        skos:prefLabel "heavy end product industry";
+        rdfs:comment "Activities transforming raw manufactured products into heavy manufactured products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_2_HeavyEndProductIndustry>.
+
+:ManufacturingOfMachinery a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfMachinery";
+        skos:prefLabel "manufacturing of machinery";
+        rdfs:comment "Manufacturing of production, agricultural, forestry and other machinery (excluding aircrafts and vehicles), weapons, ammunition and domestic appliances.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_2_1_ManufacturingOfMachinery>.
+
+:ManufacturingOfVehiclesAndTransportEquipment a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfVehiclesAndTransportEquipment";
+        skos:prefLabel "manufacturing of vehicles and transport equipment";
+        rdfs:comment "Manufacturing of motor vehicles, aircrafts, spacecrafts, ships, boats, railway and tramway equipment, motorcycles, bicycles and other transport equipment.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_2_2_ManufacturingOfVehiclesAndTransportEquipment>.
+
+:ManufacturingOfOtherHeavyEndProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfOtherHeavyEndProducts";
+        skos:prefLabel "manufacturing of other heavy end products";
+        rdfs:comment "Production of other heavy end products not included in any other of the narrower values of 2_2_HeavyEndProductIndustry.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_2_3_ManufacturingOfOtherHeavyEndProducts>.
+
+:LightEndProductIndustry a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "LightEndProductIndustry";
+        skos:prefLabel "light end product industry";
+        rdfs:comment "Activities transforming raw manufactured products into light manufactured products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_LightEndProductIndustry>.
+
+:ManufacturingOfFoodBeveragesAndTobaccoProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfFoodBeveragesAndTobaccoProducts";
+        skos:prefLabel "manufacturing of food beverages and tobacco products";
+        rdfs:comment "Manufacturing of meat, fish, fruit and vegetables, oils and fats or derived products, dairy products, grain mill and starch products, prepared animal feeds, other food products, beverages and tobacco products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_1_ManufacturingOfFoodBeveragesAndTobaccoProducts>.
+
+:ManufacturingOfClothesAndLeather a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfClothesAndLeather";
+        skos:prefLabel "manufacturing of clothes and leather";
+        rdfs:comment "Manufacturing of wearing apparel, leather clothes, dressing, accessories, dyeing of fur and manufacturing of fur products, luggage, bags, saddlery and footwear.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_2_ManufacturingOfClothesAndLeather>.
+
+:PublishingAndPrinting a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "PublishingAndPrinting";
+        skos:prefLabel "publishing and printing";
+        rdfs:comment "Publishing and printing of books, newspapers, journals and the publishing and reproduction of sound recordings.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_3_PublishingAndPrinting>.
+
+:ManufacturingOfElectricalAndOpticalEquipment a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfElectricalAndOpticalEquipment";
+        skos:prefLabel "manufacturing of electrical and optical equipment";
+        rdfs:comment "Manufacturing of office machinery, computers, motors, generators, electricity distribution and control apparatus, wires and cables, accumulators, batteries, lamps, radios, TVs, phones, electronic valves and tubes, medical, precision and optical instruments, watches and other electrical and optical equipment.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_4_ManufacturingOfElectricalAndOpticalEquipment>.
+
+:ManufacturingOfOtherLightEndProducts a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ManufacturingOfOtherLightEndProducts";
+        skos:prefLabel "manufacturing of other light end products";
+        rdfs:comment "Manufacturing of furniture, jewellery, musical instruments, sports goods, games, toys and other miscellaneous products.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_3_5_ManufacturingOfOtherLightEndProducts>.
+
+:EnergyProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "EnergyProduction";
+        skos:prefLabel "energy production";
+        rdfs:comment "Production of energy.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_4_EnergyProduction>.
+
+:NuclearBasedEnergyProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "NuclearBasedEnergyProduction";
+        skos:prefLabel "nuclear based energy production";
+        rdfs:comment "Nuclear power plants.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_4_1_NuclearBasedEnergyProduction>.
+
+:FossilFuelBasedEnergyProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "FossilFuelBasedEnergyProduction";
+        skos:prefLabel "fossil fuel based energy production";
+        rdfs:comment "Power plants using fossil fuels (coal, oil, natural gas, peat and other fossil fuels).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_4_2_FossilFuelBasedEnergyProduction>.
+
+:BiomassBasedEnergyProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "BiomassBasedEnergyProduction";
+        skos:prefLabel "biomass based energy production";
+        rdfs:comment "Combustion power plants using biomass based fuels (wood and other plant based solid and liquid fuels, biogas and other biofuels).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_4_3_BiomassBasedEnergyProduction>.
+
+:RenewableEnergyProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "RenewableEnergyProduction";
+        skos:prefLabel "renewable energy production";
+        rdfs:comment "Hydro-, solar, wind, thermal (aero, geo and hydro), tidal, wave etc. energy and other renewable energy (except biomass energy, which is covered by the value 2_4_3_BiomassBasedEnergyProduction).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_4_4_RenewableEnergyProduction>.
+
+:OtherIndustry a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherIndustry";
+        skos:prefLabel "other industry";
+        rdfs:comment "Production of other industrial products not included in any other of the narrower values of 2_SecondaryProduction.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/2_5_OtherIndustry>.
+
+:TertiaryProduction a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "TertiaryProduction";
+        skos:prefLabel "tertiary production";
+        rdfs:comment "Services that are products for other businesses and consumers both private and public services. It encompasses whole sale and retail trade, repair services, hotels and restaurants, financial services, real estate, business services, rental services, public administration, defence and social security, education, health and social work and other community, social and personal services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_TertiaryProduction>.
+
+:CommercialServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "CommercialServices";
+        skos:prefLabel "commercial services";
+        rdfs:comment "Provision of commercial services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_CommercialServices>.
+
+:WholesaleAndRetailTradeAndRepairOfVehiclesAndPersonalAndHouseholdGoods a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "WholesaleAndRetailTradeAndRepairOfVehiclesAndPersonalAndHouseholdGoods";
+        skos:prefLabel "wholesale and retail trade and repair of vehicles and personal and household goods";
+        rdfs:comment "Wholesale and retail sale of motor vehicles, fuel, agricultural raw materials, live animals, ores, metals, chemicals, timber, machinery, ships, furniture, household goods, textiles, food, beverages, tobacco products, pharmaceutical products, second hand goods, other products, waste and scrap. This class also includes the repair of vehicles, personal and household goods.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_1_WholesaleAndRetailTradeAndRepairOfVehiclesAndPersonalAndHouseholdGoods>.
+
+:RealEstateServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "RealEstateServices";
+        skos:prefLabel "real estate services";
+        rdfs:comment "Provision of real estate and renting services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_2_RealEstateServices>.
+
+:AccommodationAndFoodServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AccommodationAndFoodServices";
+        skos:prefLabel "accommodation and food services";
+        rdfs:comment "Hotel, holiday village, camping site, restaurant, bar and canteen services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_3_AccommodationAndFoodServices>.
+
+:OtherCommercialServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherCommercialServices";
+        skos:prefLabel "other commercial services";
+        rdfs:comment "Other commercial services not included in any other of the narrower values of 3_1_CommercialServices, such as beauty and wellbeing services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_4_OtherCommercialServices>.
+
+:FinancialProfessionalAndInformationServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "FinancialProfessionalAndInformationServices";
+        skos:prefLabel "financial professional and information services";
+        rdfs:comment "Provision of financial, professional or information services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_FinancialProfessionalAndInformationServices>.
+
+:FinancialAndInsuranceServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "FinancialAndInsuranceServices";
+        skos:prefLabel "financial and insurance services";
+        rdfs:comment "Provision of banking, credit, insurance, and other financial services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_1_FinancialAndInsuranceServices>.
+
+:ProfessionalTechnicalAndScientificServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ProfessionalTechnicalAndScientificServices";
+        skos:prefLabel "professional technical and scientific services";
+        rdfs:comment "IT consulting, data processing, research and development, legal, accountancy, business management, architectural, engineering, advertising, testing, investigation, consulting, and other professional services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_2_ProfessionalTechnicalAndScientificServices>.
+
+:InformationAndCommunicationServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "InformationAndCommunicationServices";
+        skos:prefLabel "information and communication services";
+        rdfs:comment "Publishing, sound recording, TV-programme, motion picture, radio broadcasting, post and telecommunication, computer and data processing services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_3_InformationAndCommunicationServices>.
+
+:AdministrativeAndSupportServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AdministrativeAndSupportServices";
+        skos:prefLabel "administrative and support services";
+        rdfs:comment "Travel agency, rental, cleaning, security and other administrative and support services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_4_AdministrativeAndSupportServices>.
+
+:OtherFinancialProfessionalAndInformationServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherFinancialProfessionalAndInformationServices";
+        skos:prefLabel "other financial professional and information services";
+        rdfs:comment "Other financial, professional and information services not included in any other of the narrower values of 3_2_FinancialProfessionalAndInformationServices.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_2_5_OtherFinancialProfessionalAndInformationServices>.
+
+:CommunityServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "CommunityServices";
+        skos:prefLabel "community services";
+        rdfs:comment "Provision of services for the community.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_CommunityServices>.
+
+:PublicAdministrationDefenceAndSocialSecurityServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "PublicAdministrationDefenceAndSocialSecurityServices";
+        skos:prefLabel "public administration defence and social security services";
+        rdfs:comment "Provision of generic administrative, defence, justice, public security, fire and compulsory social security services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_1_PublicAdministrationDefenceAndSocialSecurityServices>.
+
+:EducationalServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "EducationalServices";
+        skos:prefLabel "educational services";
+        rdfs:comment "Provision of primary, secondary, higher, adult and other educational services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_2_EducationalServices>.
+
+:HealthAndSocialServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "HealthAndSocialServices";
+        skos:prefLabel "health and social services";
+        rdfs:comment "Provision of human and animal health and social work services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_3_HealthAndSocialServices>.
+
+:ReligiousServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ReligiousServices";
+        skos:prefLabel "religious services";
+        rdfs:comment "Provision of religious services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_4_ReligiousServices>.
+
+:OtherCommunityServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherCommunityServices";
+        skos:prefLabel "other community services";
+        rdfs:comment "Other community services e.g. cemeteries.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_3_5_OtherCommunityServices>.
+
+:CulturalEntertainmentAndRecreationalServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "CulturalEntertainmentAndRecreationalServices";
+        skos:prefLabel "cultural entertainment and recreational services";
+        rdfs:comment "Provision of cultural, entertainment or recreational services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_CulturalEntertainmentAndRecreationalServices>.
+
+:CulturalServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "CulturalServices";
+        skos:prefLabel "cultural services";
+        rdfs:comment "Provision of artistic, library, museum, zoos, botanical gardens, historical sites and other cultural services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_1_CulturalServices>.
+
+:EntertainmentServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "EntertainmentServices";
+        skos:prefLabel "entertainment services";
+        rdfs:comment "Amusement parks, theme parks, betting and gambling activities and other entertainment services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_2_EntertainmentServices>.
+
+:SportsInfrastructure a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "SportsInfrastructure";
+        skos:prefLabel "sports infrastructure";
+        rdfs:comment "Sports infrastructure, such as stadiums, sports halls, swimming pools, fitness facilities, ski resorts, golf courses and other sports infrastructure.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_3_SportsInfrastructure>.
+
+:OpenAirRecreationalAreas a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OpenAirRecreationalAreas";
+        skos:prefLabel "open air recreational areas";
+        rdfs:comment "Open air recreational areas, e.g. urban parks, playgrounds, national parks, and natural areas used for recreational purposes.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_4_OpenAirRecreationalAreas>.
+
+:OtherRecreationalServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherRecreationalServices";
+        skos:prefLabel "other recreational services";
+        rdfs:comment "Other recreational services not included in any of the other narrower values of 3_4_CulturalEntertainmentAndRecreationalServices.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_4_5_OtherRecreationalServices>.
+
+:OtherServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherServices";
+        skos:prefLabel "other services";
+        rdfs:comment "Provision of other services not included in any of the other narrower values of 3_TertiaryProduction.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/3_5_OtherServices>.
+
+:TransportNetworksLogisticsAndUtilities a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "TransportNetworksLogisticsAndUtilities";
+        skos:prefLabel "transport networks logistics and utilities";
+        rdfs:comment "Basic infrastructure and networks of the society. All the other sectors are using the infrastructure and networks to produce the goods and services and they are also vital for residential areas. It includes water supply, collection, treatment and recycling of sewage and waste, transport, networks, storage and communication.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_TransportNetworksLogisticsAndUtilities>.
+
+:TransportNetworks a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "TransportNetworks";
+        skos:prefLabel "transport networks";
+        rdfs:comment "Infrastructure related to transport.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_TransportNetworks>.
+
+:RoadTransport a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "RoadTransport";
+        skos:prefLabel "road transport";
+        rdfs:comment "Areas used for road transport, e.g. roads, parking areas, service stations.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_1_RoadTransport>.
+
+:RailwayTransport a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "RailwayTransport";
+        skos:prefLabel "railway transport";
+        rdfs:comment "Areas used for rail transport, e.g. rails, railway stations and yards etc.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_2_RailwayTransport>.
+
+:AirTransport a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AirTransport";
+        skos:prefLabel "air transport";
+        rdfs:comment "Areas used for air transport, e.g. airports and related services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_3_AirTransport>.
+
+:WaterTransport a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "WaterTransport";
+        skos:prefLabel "water transport";
+        rdfs:comment "Areas used for water transport, e.g. ports, rivers, docks and related services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_4_WaterTransport>.
+
+:OtherTransportNetwork a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherTransportNetwork";
+        skos:prefLabel "other transport network";
+        rdfs:comment "Areas used for other transport not included in any of the other narrower values of 4_1_TransportNetworks.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_1_5_OtherTransportNetwork>.
+
+:LogisticalAndStorageServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "LogisticalAndStorageServices";
+        skos:prefLabel "logistical and storage services";
+        rdfs:comment "Areas used for separate (not linked directly to industries) storage services and logistical services.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_2_LogisticalAndStorageServices>.
+
+:Utilities a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "Utilities";
+        skos:prefLabel "utilities";
+        rdfs:comment "Infrastructure related to utilities.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_3_Utilities>.
+
+:ElectricityGasAndThermalPowerDistributionServices a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ElectricityGasAndThermalPowerDistributionServices";
+        skos:prefLabel "electricity gas and thermal power distribution services";
+        rdfs:comment "Areas used for distribution of electricity, gas and thermal energy, including the pipelines used for transporting oil and gas.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_3_1_ElectricityGasAndThermalPowerDistributionServices>.
+
+:WaterAndSewageInfrastructure a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "WaterAndSewageInfrastructure";
+        skos:prefLabel "water and sewage infrastructure";
+        rdfs:comment "Areas used for the extraction, collection, purification storage and distribution of water, collection and treatment of sewage (including the pipelines).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_3_2_WaterAndSewageInfrastructure>.
+
+:WasteTreatment a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "WasteTreatment";
+        skos:prefLabel "waste treatment";
+        rdfs:comment "Areas used for the collection, treatment and recycling of waste.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_3_3_WasteTreatment>.
+
+:OtherUtilities a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherUtilities";
+        skos:prefLabel "other utilities";
+        rdfs:comment "Areas used for other utilities not included in any of the other narrower values of 4_3_Utilities.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/4_3_4_OtherUtilities>.
+
+:ResidentialUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ResidentialUse";
+        skos:prefLabel "residential use";
+        rdfs:comment "Areas used dominantly for housing of people. The forms of housing vary significantly between, and through, residential areas. These areas include single family housing, multi-family residential, or mobile homes in cities, towns and rural districts if they are not linked to primary production. It permits high density land use and low density uses. This class also includes residential areas mixed with other non-conflicting uses and other residential areas.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/5_ResidentialUse>.
+
+:PermanentResidentialUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "PermanentResidentialUse";
+        skos:prefLabel "permanent residential use";
+        rdfs:comment "Residential areas dominated by detached houses surrounded by gardens and/or yards, a mix of single houses, semi-detached houses, terraced houses, town houses, row houses and blocks of flats used as permanent residence.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/5_1_PermanentResidentialUse>.
+
+:ResidentialUseWithOtherCompatibleUses a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "ResidentialUseWithOtherCompatibleUses";
+        skos:prefLabel "residential use with other compatible uses";
+        rdfs:comment "Residential areas mixed with other non-conflicting uses (e.g. various services, light industries etc.).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/5_2_ResidentialUseWithOtherCompatibleUses>.
+
+:OtherResidentialUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherResidentialUse";
+        skos:prefLabel "other residential use";
+        rdfs:comment "Areas dominantly used for temporary dwellings (camps of migrant people), holiday residences (summer cottages), etc.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/5_3_OtherResidentialUse>.
+
+:OtherUses a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "OtherUses";
+        skos:prefLabel "other uses";
+        rdfs:comment "Areas not included in the values 1_PrimaryProduction, 2_SecondaryProduction 3_TertiaryProduction 4_TransportNetworksLogisticsAndUtilities, 5_ResidentialUse or any of their narrower values, or areas under construction.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_OtherUses>.
+
+:TransitionalAreas a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "TransitionalAreas";
+        skos:prefLabel "transitional areas";
+        rdfs:comment "Areas under construction. This class is used only for existing land use and not for planned land use.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_1_TransitionalAreas>.
+
+:AbandonedAreas a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AbandonedAreas";
+        skos:prefLabel "abandoned areas";
+        rdfs:comment "Abandoned agricultural, residential and industrial, transport and basic infrastructure areas. The area belongs to the abandoned class if it is not in use and can no longer be used for the original purpose without major reparation or renovation work.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_2_AbandonedAreas>.
+
+:NaturalAreasNotInOtherEconomicUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "NaturalAreasNotInOtherEconomicUse";
+        skos:prefLabel "natural areas not in other economic use";
+        rdfs:comment "Areas which are in natural state and not in other economic use.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_3_NaturalAreasNotInOtherEconomicUse>.
+
+:LandAreasNotInOtherEconomicUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "LandAreasNotInOtherEconomicUse";
+        skos:prefLabel "land areas not in other economic use";
+        rdfs:comment "Areas which are in natural state, e.g. woodland, shrubland, grassland, wetland, bare land, which are not in any other socio-economic use. This includes the areas with a planning status &apos;natural area’. Protected areas can belong to this class or, if other uses are present, also to other classes. Protected areas are always tagged with a supplementary regulation status &apos;protected area’.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_3_1_LandAreasNotInOtherEconomicUse>.
+
+:WaterAreasNotInOtherEconomicUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "WaterAreasNotInOtherEconomicUse";
+        skos:prefLabel "water areas not in other economic use";
+        rdfs:comment "Water areas which are not in any other socio-economic use.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_3_2_WaterAreasNotInOtherEconomicUse>.
+
+:AreasWhereAnyUseAllowed a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AreasWhereAnyUseAllowed";
+        skos:prefLabel "areas where any use allowed";
+        rdfs:comment "Areas where any use is allowed in the Planned land use (PLU).";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_4_AreasWhereAnyUseAllowed>.
+
+:AreasWithoutAnySpecifiedPlannedUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "AreasWithoutAnySpecifiedPlannedUse";
+        skos:prefLabel "areas without any specified planned use";
+        rdfs:comment "Areas where no use is specified in the Planned land use (PLU), e.g. areas outside the scope of the plan.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_5_AreasWithoutAnySpecifiedPlannedUse>.
+
+:NotKnownUse a owl:NamedIndividual, skos:Concept, :HILUCSClassificationCode;
+        rdfs:label "NotKnownUse";
+        skos:prefLabel "not known use";
+        rdfs:comment "Areas where the land use is unknown.";
+        skos:inScheme :HILUCSClassificationCode;
+        owl:sameAs <http://inspire.ec.europa.eu/codelist/HILUCSValue/6_6_NotKnownUse>.
