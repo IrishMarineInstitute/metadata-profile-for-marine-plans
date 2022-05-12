@@ -2,7 +2,7 @@
  
  A metadata profile for marine spatial plans in Europe
 
-[HTML Version]()
+[HTML Version](https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/index.html)
 
 ## Objective
 
@@ -11,13 +11,13 @@ To agree and develop a metadata standard for the description of Marine Spatial P
 ## Ontology
 
 - TTL [file](marineplan.ttl)
-- Preferred namespace URI
+- Preferred namespace URI [https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#](https://irishmarineinstitute.github.io/metadata-profile-for-marine-plans/marineplan.ttl#)
 - Preferred namespace prefix: msp
 
 ## Creators
 
-- Adam Leadbetter [(@adamml)](https://github.com/adamml)
-- Andrew Conway
+- Adam Leadbetter ([@adamml](https://github.com/adamml))
+- Andrew Conway ([@conbon27](https://github.com/conbon27))
 
 ## Contributors
 
@@ -25,7 +25,7 @@ To agree and develop a metadata standard for the description of Marine Spatial P
 - Monica Campillos
 - Joni Kaitaranta
 - Olvido Tello
-- Elizabeth Tray [(@Elizabeth-Tray)](https://github.com/Elizabeth-Tray)
+- Elizabeth Tray ([@Elizabeth-Tray](https://github.com/Elizabeth-Tray))
 - Alessandro Sarretta
 - Adeline Souf
 - Jean-Baptiste Suzanne
