@@ -18,7 +18,8 @@
 	vann:preferredNamespacePrefix "msp";
         vann:preferredNamespaceUri "https://purl.org/voc/marineplans#"^^xsd:String;
 	dcterms:created "2022-03-25";
-	dcterms:modified "2022-03-25";
+	dcterms:modified "2022-05-35";
+        owl:versionInfo "1";
         dcterms:creator [
                 sdo:name "Adam Leadbetter";
                 sdo:identifier <https://orcid.org/0000-0003-4382-2285>;
