@@ -412,6 +412,7 @@ EAfDe6H3Dy6Ll456WEJsRZS630MwCAOI20ei5OBpxse5zcBZw8eS4uPpfIuDiCainIg9umBCU0GZzgLZ
       <li><a href="#HILUCSClassificationCode">HILUCSClassificationCode</a></li>
       <li><a href="#Legislation">Legislation</a></li>
       <li><a href="#MSFDDescriptor">MSFDDescriptor</a></li>
+      <li><a href="#MSFDDescriptor">MSPdFCluster</a></li>
       <li><a href="#MarinePlan">MarinePlan</a></li>
       <li><a href="#Organisation">Organisation</a></li>
       <li><a href="#Policy">Policy</a></li>
@@ -600,6 +601,7 @@ _:expires a msp:Date ;
             <tr>
                 <th>Members</th>
                 <td>
+                    <a href="https://purl.org/voc/marineplans#LastUpdate">LastUpdate</a><br/>
                     <a href="https://purl.org/voc/marineplans#NextUpdate">NextUpdate</a><br/>
                     <a href="https://purl.org/voc/marineplans#Expires">Expires</a><br/>
                     <a href="https://purl.org/voc/marineplans#IntoForce">IntoForce</a><br/>
@@ -937,7 +939,7 @@ _:planning_and_development_ammendment_act_2018 a msp:Legislation ;
             <tr>
                 <th>Description</th>
                 <td>
-                    <p>A Marine Strategy Framework Directive descriptor of good environmental status</p>
+                    <p>A qualitative descriptor for one of the eleven Marine Strategy Framework Directive descriptors to achieve the good environmental status, the reporting of which may be informed by the contents of the dataset.</p>
                 </td>
             </tr>
             <tr>
@@ -954,6 +956,36 @@ _:planning_and_development_ammendment_act_2018 a msp:Legislation ;
                     <a href="https://purl.org/voc/marineplans#IntroductionOfEnergyDoesNotAdverselyAffectTheMarineEnvironment">IntroductionOfEnergyDoesNotAdverselyAffectTheMarineEnvironment</a><br/>
                     <a href="https://purl.org/voc/marineplans#ContaminantsInSeafoodDoNotExceedEstablishedLevels">ContaminantsInSeafoodDoNotExceedEstablishedLevels</a><br/>
                     <a href="https://purl.org/voc/marineplans#BiologicalDiversityMaintained">BiologicalDiversityMaintained</a><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="MSPdFCluster">
+        <h3>
+            MSPdFCluster<sup title="class" class="sup-c">c</sup>
+            <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#MSPdFCluster" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://purl.org/voc/marineplans#MSPdFCluster</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A qualitative descriptor for one of the seven data clusters defined by the Maritime Spatial Planning Data Framework.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Members</th>
+                <td>
+                    <a href="https://purl.org/voc/marineplans#MarineAndCoastalEnvironment">MarineAndCoastalEnvironment</a><br/>
+                    <a href="https://purl.org/voc/marineplans#MarineAndCoastalConservationAndDesignatedSites">MarineAndCoastalConservationAndDesignatedSites</a><br/>
+                    <a href="https://purl.org/voc/marineplans#OceanographicCharacteristicsAndClimate">OceanographicCharacteristicsAndClimate</a><br/>
+                    <a href="https://purl.org/voc/marineplans#CoastalLandUseAndPlanning">CoastalLandUseAndPlanning</a><br/>
+                    <a href="https://purl.org/voc/marineplans#OperativeMaritimeActivitiesAndMSP">OperativeMaritimeActivitiesAndMSP</a><br/>
+                    <a href="https://purl.org/voc/marineplans#SocioEconomicInformation">SocioEconomicInformation</a><br/>
+                    <a href="https://purl.org/voc/marineplans#GovernanceInformation">GovernanceInformation</a><br/>
                 </td>
             </tr>
         </table>
@@ -1303,6 +1335,7 @@ _:plan_enforcer a msp:Role ;
                 <td>
                     <a href="https://purl.org/voc/marineplans#PlanCreator">PlanCreator</a><br/>
                     <a href="https://purl.org/voc/marineplans#MetadataCreator">MetadataCreator</a><br/>
+                    <a href="https://purl.org/voc/marineplans#PlanEnforcer">PlanEnforcer</a><br/>
                 </td>
             </tr>
         </table>
@@ -1319,6 +1352,7 @@ _:plan_enforcer a msp:Role ;
         <li><a href="#inputDataset">inputDataset</a></li>
         <li><a href="#legislation">legislation</a></li>
         <li><a href="#msfdDescriptor">msfdDescriptor</a></li>
+        <li><a href="#msfdDescriptor">mspdfCluster</a></li>
         <li><a href="#organisation">organisation</a></li>
         <li><a href="#outputDataset">outputDataset</a></li>
         <li><a href="#role">role</a></li>
@@ -1571,6 +1605,35 @@ _:plan_enforcer a msp:Role ;
                 <th>Range(s)</th>
                 <td>
                     <a href="https://purl.org/voc/marineplans#MSFDDEscriptor">MSFDDEscriptor</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="mspdfCluster">
+        <h3>mspdfCluster<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#msfdDescriptor" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://purl.org/voc/marineplans#mspdfCluster</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A qualitative descriptor for one of the seven data clusters defined by the Maritime Spatial Planning Data Framework.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Dataset">Dataset</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://purl.org/voc/marineplans#MSPdFCluster">MSPdFCluster</a><sup class="sup-c" title="class">c</sup>
                 </td>
             </tr>
         </table>
@@ -2001,7 +2064,7 @@ _:plan_enforcer a msp:Role ;
             <tr>
                 <th>Description</th>
                 <td>
-                    <p>A term from a controlled list, such as the Hierarchical INSPIRE Land Use Classification System, that provides some level of classification describing the policy</p>
+                    <p>A term that provides some level of classification describing the policy. It may refer to EU legislation or the Hierarchical INSPIRE Land Use Classification System.</p>
                 </td>
             </tr>
             <tr>
@@ -2098,6 +2161,7 @@ _:plan_enforcer a msp:Role ;
             <li><a href="#InternationalConventionsseaboundaries">International Conventions sea boundaries</a></li>
             <li><a href="#IntoForce">IntoForce</a></li>
             <li><a href="#Introductionofenergydoesnotadverselyaffectthemarineenvironment">Introduction of energy does not adversely affect the marine environment</a></li>
+            <li><a href="#LastUpdate">LastUpdate</a></li>
             <li><a href="#Lighthouselocation">Lighthouse location</a></li>
             <li><a href="#Marinalocation">Marina location</a></li>
             <li><a href="#Marinecurrentpowerfacilitylocation">Marine current power facility location</a></li>
@@ -4341,6 +4405,30 @@ _:plan_enforcer a msp:Role ;
             </tr>
         </table>
     </div>
+        <div class="entity named_individual" id="LastUpdate">
+            <h3>LastUpdate<sup title="named individual" class="sup-ni">ni</sup></h3>
+            <table>
+                <tr>
+                    <th>URI</th>
+                    <td>
+                        <code>
+                            https://purl.org/voc/marineplans#LastUpdate
+
+                        </code>
+                    </td>
+                </tr>
+                <dt>Class(es)</dt>
+                <dd>
+                    <a href="https://purl.org/voc/marineplans#DateType">DateType</a><br/>
+                </dd>
+                <tr>
+                    <th>Description</th>
+                    <td>
+                        The Date on which the Marine Plan was last updated
+                    </td>
+                </tr>
+            </table>
+        </div>
             <div class="entity named_individual" id="Lighthouselocation">
         <h3>Lighthouse location<sup title="named individual" class="sup-ni">ni</sup></h3>
         <table>
@@ -6180,6 +6268,30 @@ _:plan_enforcer a msp:Role ;
             </tr>
         </table>
     </div>
+        <div class="entity named_individual" id="PlanEnforcer">
+            <h3>PlanEnforcer<sup title="named individual" class="sup-ni">ni</sup></h3>
+            <table>
+                <tr>
+                    <th>URI</th>
+                    <td>
+                        <code>
+                            https://purl.org/voc/marineplans#PlanEnforcer
+
+                        </code>
+                    </td>
+                </tr>
+                <dt>Class(es)</dt>
+                <dd>
+                    <a href="https://purl.org/voc/marineplans#Roles">Roles</a><br/>
+                </dd>
+                <tr>
+                    <th>Description</th>
+                    <td>
+                        The Role of the enforcer of a Marine Plan
+                    </td>
+                </tr>
+            </table>
+        </div>
             <div class="entity named_individual" id="Portlocation">
         <h3>Port location<sup title="named individual" class="sup-ni">ni</sup></h3>
         <table>
