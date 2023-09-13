@@ -24,6 +24,7 @@ To agree and develop a metadata standard for the description of Marine Spatial P
 - Alexia Attard
 - Monica Campillos
 - Joni Kaitaranta
+- Denise O'Sullivan ([@dosullivan019](https://github.com/dosullivan019))
 - Olvido Tello
 - Elizabeth Tray ([@Elizabeth-Tray](https://github.com/Elizabeth-Tray))
 - Alessandro Sarretta
