@@ -53,6 +53,10 @@
                 sdo:identifier <https://orcid.org/0000-0003-4990-1785>;
                 sdo:affiliation [sdo:name "Instituto Español de Oceanografía, Spain"; sdo:url "http://www.ieo.es"^^xsd:anyURI]
         ],[
+                sdo:name "Denise O'Sullivan";
+                sdo:identifier <https://orcid.org/0009-0005-8137-5262>;
+                sdo:affiliation [sdo:name "Marine Institute, Ireland"; sdo:url "https://www.marine.ie/Home/home"^^xsd:anyURI]
+         ],[
                 sdo:name "Elizabeth Tray";
                 sdo:identifier <https://orcid.org/0000-0002-7419-910X>;
                 sdo:affiliation [sdo:name "Marine Institute, Ireland"; sdo:url "https://www.marine.ie/Home/home"^^xsd:anyURI]
