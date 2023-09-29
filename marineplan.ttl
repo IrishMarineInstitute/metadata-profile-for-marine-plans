@@ -148,9 +148,13 @@ _:planning_and_development_ammendment_act_2018 a msp:Legislation ;
     msp:name "Planning and Development (Ammendment) Act 2018 - Part 5" ;
     msp:url <https://www.irishstatutebook.ie/eli/2018/act/16/enacted/en/print#part5> .""".
 
+:MSPdFCluster a owl:Class, skos:ConceptScheme;
+    rdfs:label "MSPdFCluster";
+    rdfs:comment "A qualitative descriptor for one of the seven data clusters defined by the Maritime Spatial Planning Data Framework".
+
 :MSFDDescriptor a owl:Class, skos:ConceptScheme;
 	rdfs:label "MSFDDescriptor";
-	rdfs:comment "A Marine Strategy Framework Directive descriptor of good environmental status".
+	rdfs:comment "A qualitative descriptor for one of the eleven Marine Strategy Framework Directive descriptors to achieve the good environmental status, the reporting of which may be informed by the contents of the dataset".
 
 :MarinePlan a owl:Class;
 	rdfs:label "MarinePlan"@en;
@@ -310,7 +314,7 @@ _:plan_enforcer a msp:Role ;
 
 :policyClassification a owl:DatatypeProperty;
 									rdfs:label "policyClassification";
-									rdfs:comment "A term from a controlled list, such as the Hierarchical INSPIRE Land Use Classification System, that provides some level of classification describing the policy";
+									rdfs:comment "A term that provides some level of classification describing the policy. It may refer to EU legislation or the Hierarchical INSPIRE Land Use Classification System";
 									rdfs:domain :Policy;
 									rdfs:range xsd:Literal, xsd:anyURI, :HILUCSClassificationCode.
 
@@ -372,6 +376,12 @@ _:plan_enforcer a msp:Role ;
 								rdfs:domain :MarinePlan;
 								rdfs:range :Legislation.
 
+:mspdfCluster a owl:ObjectProperty;
+									rdfs:label "mspdfCluster";
+									rdfs:comment "A qualitative descriptor for one of the seven data clusters defined by the Maritime Spatial Planning Data Framework";
+									rdfs:domain :Dataset;
+									rdfs:range :MSPdFCluster.
+
 :msfdDescriptor a owl:ObjectProperty;
 									rdfs:label "msfdDescriptor";
 									rdfs:comment "A Marine Strategy Framework Directive descriptor of good environmental status, the reporting of which may be informed by the contents of the dataset";
@@ -425,6 +435,10 @@ _:plan_enforcer a msp:Role ;
 	rdfs:label "PlanCreator"@en;
 	rdfs:comment "The Role of the creator of a Marine Plan".
 
+:PlanEnforcer a owl:NamedIndividual, :Roles;
+	rdfs:label "PlanEnforcer"@en;
+	rdfs:comment "The Role of the enforcer of a Marine Plan".
+
 :Expires a owl:NamedIndividual, :DateType;
 		rdfs:label "Expires"@en;
 		rdfs:comment "The Date on which the Marine Plan expires".
@@ -432,6 +446,10 @@ _:plan_enforcer a msp:Role ;
 :IntoForce a owl:NamedIndividual, :DateType;
 		rdfs:label "IntoForce"@en;
 			rdfs:comment "The Date on which the Marine Plan comes into force".
+
+:LastUpdate a owl:NamedIndividual, :DateType;
+		rdfs:label "LastUpdate"@en;
+				rdfs:comment "The Date on which the Marine Plan was last updated".
 
 :NextUpdate a owl:NamedIndividual, :DateType;
 		rdfs:label "NextUpdate"@en;
